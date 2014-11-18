@@ -68,14 +68,14 @@ tieba = Tieba('eternalcxx0302', 'yanhuai0202')
 reg=Reg_test()
 getmyip = Getmyip()
 current_IP=getmyip.getip()
-ptint 'current_IP:',current_IP
+print 'current_IP:',current_IP
 def answer_once(qid, content):
     try:
         # username, passwd = tiebadb.get_random_bd_user()
         # tieba = Tieba(username, passwd)
         # tieba.login()
         tieba.answer_q(qid, content)
-        tiebadb.save_question(qid, content,'eternalcxx0302',current_IP)
+        tiebadb.save_question(qid, content,'eternalcxx0302',str(current_IP))
     except TiebaError, e:
         print 'Answer Failed'    
 
