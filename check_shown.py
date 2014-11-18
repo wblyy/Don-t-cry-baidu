@@ -6,8 +6,11 @@ import time
 from mydb import Tiedb
 tiebadb = Tiedb()
 
-print tiebadb.is_q_shown_detected()
-
+for shown in tiebadb.is_q_shown_detected():
+    print shown[0]
+    print shown[1]
+#ques_stat=','.join(str(i) for i in tiebadb.is_q_shown_detected())
+#print ques_stat.split(',')
 
 #userNameEnc:"
 #",user:
