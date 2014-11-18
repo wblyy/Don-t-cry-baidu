@@ -116,6 +116,13 @@ class Tiedb(Mydb):
         #从数据库中获取is-shown状态未知的 qid以及时间
         return self._query_rows('select qid,inserted from zhidao where is_shown=0')
 
+    def is_user_exist(self,username):
+        return self._query_row('select id from bdusers where username=%s', (username, ))
+
+    def update_q_not_shown(self,qid):
+        #将所有有显示的置为2
+        self._query_row('update zhidao set is_shown=1 where qid=%s',(qid, ))
+
     def update_q_shown(self,qid):
         #将所有有显示的置为2
         self._query_row('update zhidao set is_shown=2 where qid=%s',(qid, ))
