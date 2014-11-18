@@ -114,7 +114,7 @@ class Tiedb(Mydb):
 
     def is_q_shown_detected(self):
         #从数据库中获取is-shown状态未知的 qid以及时间
-        return self._query_row('select qid from zhidao where is_shown=0')
+        return self._query_row('select qid,inserted from zhidao where is_shown=0')
 
     def update_q_shown(self,qid):
         #将所有有显示的置为2
