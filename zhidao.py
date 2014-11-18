@@ -11,6 +11,7 @@ import re
 import random
 from random import choice
 from reg_test import Reg_test
+from IP_test import Getmyip
 import sys
 
 
@@ -65,13 +66,14 @@ def get_cur_ts():
 tiebadb = Tiedb()
 tieba = Tieba('eternalcxx0302', 'yanhuai0202')
 reg=Reg_test()
+getmyip = Getmyip()
 def answer_once(qid, content):
     try:
         # username, passwd = tiebadb.get_random_bd_user()
         # tieba = Tieba(username, passwd)
         # tieba.login()
         tieba.answer_q(qid, content)
-        tiebadb.save_q(qid, content)
+        tiebadb.save_question(qid, content,'eternalcxx0302',getmyip.getip())
     except TiebaError, e:
         print 'Answer Failed'    
 
