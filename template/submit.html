@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>贴吧自助平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/submit.css" media="all" />
+    <!-- <script type="text/javascript" src="view.js"></script> -->
+  </head>
+  <body id="main_body" >
+	<!-- <img id="top" src="top.png" alt="" /> -->
+	<div id="form_container">
+      {% if row %}
+	  <h1><a>简谱录入</a></h1>
+	  <form id="form_875089" class="appnitro"  method="post" action="/submit?tieid={{ row[1] }}">
+		<div class="form_description">
+		  <h2>帖子编辑</h2>
+		  <p></p>
+		</div>						
+		<ul >
+		  <li id="li_2" >
+		    <label class="description" for="element_2">吧名(不可编辑)</label>
+		    <div>
+			  <input id="element_2" name="baname" class="element text medium" type="text" maxlength="255" value="{{ row[0] }}吧" readonly="readonly"/> 
+		    </div> 
+		  </li>		
+		  <li id="li_2" >
+		    <label class="description" for="element_3">帖子地址(不可编辑) </label>
+		    <div>
+			  <input id="element_2" name="tieurl" class="element text large" type="text" maxlength="255" value="http://tieba.baidu.com/p/{{ row[1] }}" readonly="readonly"/> 
+		    </div> 
+		  </li>		
+          <li id="li_3" >
+		    <label class="description" for="element_3">顶贴语句（每行一句） </label>
+		    <div>
+			  <textarea id="element_3" name="sentens" class="element textarea large">{{ row[2] }}</textarea> 
+		    </div> 
+		  </li>
+          <li id="li_3" >
+		    <label class="description" for="element_3">备注（可选） </label>
+		    <div>
+			  <textarea id="element_3" name="marks" class="element textarea middle">{{ row[3] }}</textarea> 
+		    </div> 
+		  </li>
+		  <li class="buttons">
+			<input type="hidden" name="form_id" value="875089" />
+			<input id="saveForm" class="button_text" type="submit" name="submit" value="更新顶贴内容" />
+            <a href="/del?tieid={{ row[1] }}">删除此贴</a>
+		  </li>
+		</ul>
+	  </form>	
+      {% else %}
+	  <h1><a>简谱录入</a></h1>
+	  <form id="form_875089" class="appnitro"  method="post" action="/submit">
+		<div class="form_description">
+		  <h2>帖子录入</h2>
+		  <p></p>
+		</div>						
+		<ul >
+		  <!-- <li id="li_2" > -->
+		  <!--   <label class="description" for="element_2">吧名(如：XX吧)</label> -->
+		  <!--   <div> -->
+		  <!--     <input id="element_2" name="baname" class="element text medium" type="text" maxlength="255" value=""/>  -->
+		  <!--   </div>  -->
+		  <!-- </li>		 -->
+		  <li id="li_2" >
+		    <label class="description" for="element_3">帖子地址(如：http://tieba.baidu.com/p/3171539055) </label>
+		    <div>
+			  <input id="element_2" name="tieurl" class="element text large" type="text" maxlength="255" value=""/> 
+		    </div> 
+		  </li>		
+          <li id="li_3" >
+		    <label class="description" for="element_3">顶贴语句（每行一句） </label>
+		    <div>
+			  <textarea id="element_3" name="sentens" class="element textarea large"></textarea> 
+		    </div> 
+		  </li>
+          <li id="li_3" >
+		    <label class="description" for="element_3">备注（可选） </label>
+		    <div>
+			  <textarea id="element_3" name="marks" class="element textarea middle"></textarea> 
+		    </div> 
+		  </li>
+		  <li class="buttons">
+			<input type="hidden" name="form_id" value="875089" />
+			<input id="saveForm" class="button_text" type="submit" name="submit" value="Submit" />
+		  </li>
+		</ul>
+	  </form>	
+      {% end %}
+	  <div id="footer">
+	  </div>
+	</div>
+  </body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html dir="ltr" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>顶贴列表</title>
+    <link rel="stylesheet" href="/static/css/table.css" type="text/css">
+  </head>
+  <body>
+    <div id="content">
+      <div id="center">
+        <div id="itsthetable">
+          <table summary="Submitted table designs">
+            <thead>
+              <tr><th scope="col">吧名</th><th scope="col">帖子标题</th><th scope="col">帖子地址</th><th scope="col">状态</th><th scope="col">最后回复时间</th><th scope="col">自动回复数/总回复数</th><th scope="col">查看详情</th></tr>
+            </thead>
+            {% if ties %}
+            <tfoot>
+              <tr><th scope="row">Total</th><td colspan="4">{{ len(ties) }}</td></tr>
+              {% end %}
+            </tfoot>
+            <tbody>
+              {% for row in ties %}
+              <tr >
+                <th scope="row" id="r100"><a href="http://tieba.baidu.com/f?ie=utf-8&kw={{ row[0] }}" target="_blank">{{ row[0] }}</a></th>
+                <td>{{ row[3] }}</td>
+                <td><a href="http://tieba.baidu.com/p/{{ row[1] }}" target="_blank">http://tieba.baidu.com/p/{{ row[1] }}</a></td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[5] }}</td>
+                <td>{{ row[6] }}/{{ row[7] }}</td>
+                <td><a href="/submit?tieid={{ row[1] }}">编辑</a></td>
+              </tr>
+              {% end %}
+            </tbody>
+          </table>
+        </div>
+        <center><a href="mailto: xiaorongliao@gmail.com">Any Question</a><center>
+      </div>
+    </div>
+  </body>
+</html>
