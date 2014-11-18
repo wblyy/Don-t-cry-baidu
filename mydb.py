@@ -107,7 +107,7 @@ class Tiedb(Mydb):
 
 
     def is_q_shown(self, qid):
-        if self._query_rows('select is_shown from zhidao where qid=%s', (qid, ))>=2:
+        if self._query_row('select is_shown from zhidao where qid=%s', (qid, ))>=2:
         #规定0状态是未知，1状态是未显示，2状态是已显示，3状态是显示的是当前状态的信息
             return True
         return False
