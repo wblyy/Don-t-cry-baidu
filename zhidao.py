@@ -82,15 +82,17 @@ def answer_once(qid, content):
 
 @rerun
 def answer_search():
-    # username, passwd = tiebadb.get_random_bd_user()
-    # print_message('%s\t%s' % (username, passwd))
-    # tieba = Tieba(username, passwd)
     try:
-        tieba.login()
-        #q = tieba.get_questions()
+        switch_user=0
         p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
         temp_word='确实挺熟悉的'
         for row in yield_q():
+            switch_user=switch_user+1
+            if switch_user%5==0:
+                username, passwd = tiebadb.get_random_bd_user()
+                print_message('%s\t%s' % (username, passwd))
+                tieba = Tieba(username, passwd)
+                tieba.login()
             #temp_word='确实挺熟悉的'
             content=''
             senten=''
@@ -99,7 +101,7 @@ def answer_search():
             #url_filter=[]
             qid = row[0][row[0].rfind('/')+1:row[0].rfind('.')]
             title = row[1]
-            if not tiebadb.is_q_in(qid) and not '用户名' in title:
+            if not tiebadb.is_q_shown(qid) and not '用户名' in title:#改成q shown查询后再确定是否回
                 print row[2]
                 con_fil=p.split(content+row[2])
                 for con in con_fil:
@@ -107,34 +109,13 @@ def answer_search():
                 print content    
                 similar_answer = reg.get_bing_similar(title,content)
                 if similar_answer:
-                    #answer = similar_answer.encode('utf8').replace('<font color="#C60A00">', '').replace('</font>', '')
-                    #senten = answer# +',  也可以用音乐识别软件识别'
-                    #senten=similar_answer
-                        #url_filter=p.split(answer)
-                    #for word in p.split(similar_answer):
-                    #        if len(word)>100:
-                    #            senten = senten+word[0:99]# +' 也可以用音乐雷达识别试试'
-                    #        else:
-                    #            senten=senten+word                    
                     for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",similar_answer.decode('utf8')):
                         choose=random.randint(2,5)
                         if len(hanzi)%choose!=0 and len(senten_left)<20:
                             senten_left=senten_left+hanzi+','
-                        #print hanzi
-                        #print "left:"+senten_left
-                    #factor=random.randint(0,len(senten))
                     senten=senten_left+senten1[random.randint(0,len(senten1))]+','+senten2[random.randint(0,len(senten2))]        
                     print "从bing中得到最佳答案：     "+senten  
-                else:
-                # senten = get_random_senten(choice(list(title.decode('utf8'))).encode('utf8'))
-                    #senten = temp_word
-                    #url_filter=p.split(temp_word)
-                    #for word in p.split(temp_word):
-                    #        if len(word)>100:
-                    #            senten=senten+word[0:99]
-                    #        else:
-                    #            senten=senten+word
-                    #factor=random.randint(0,len(senten))  
+                else:                
                     for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",temp_word.decode('utf8')):
                         choose=random.randint(2,5)
                         if len(hanzi)%choose!=0 and len(senten_left)<20:
@@ -143,11 +124,7 @@ def answer_search():
                         #print "left:"+senten_left
                     senten=senten_left+senten1[random.randint(0,len(senten1))]+','+senten2[random.randint(0,len(senten2))]
                     #senten=senten[0:factor]+','+senten1[random.randint(0,4)]+','+senten2[random.randint(0,4)]+','+senten[factor]
-                    print  "从bing总抓取答案失败，采用备选答案：        " +senten
-            # print qid, senten
-            # continue
-            #if not tiebadb.is_q_in(qid) and not '用户名' in title:
-                # continue
+                    print  "从bing总抓取答案失败，采用备选答案：        " +senten            
                 answer_once(qid, senten)
                 time.sleep(choice([10, 15])*10)
                 temp_word=row[2]
@@ -161,9 +138,14 @@ def main():
     print_message('%s\t%s' % (username, passwd))
     tieba = Tieba(username, passwd)
     try:
-        tieba.login()
+
+        
         q = tieba.get_questions()
         for row in q['data']['detail']:
+            username, passwd = tiebadb.get_random_bd_user()
+            print_message('%s\t%s' % (username, passwd))
+            tieba = Tieba(username, passwd)
+            tieba.login()
             # print row['title'].encode('utf8'), row['tagName'][0].encode('utf8')
             # continue
             if u'小时' in row['createTime']:
@@ -218,4 +200,5 @@ if __name__ == "__main__":
     # get_tag()
     # test()
     # yield_q()
-    answer_search()
+    while True:
+        answer_search()
