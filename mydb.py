@@ -107,7 +107,7 @@ class Tiedb(Mydb):
 
 
     def is_q_shown(self, qid):
-        if self._query_row('select is_shown from zhidao where qid=%s', (qid, ))>=2:
+        if self._query_rows('select is_shown from zhidao where qid=%s', (qid, ))>=2:
         #规定0状态是未知，1状态是未显示，2状态是已显示，3状态是显示的是当前状态的信息
             return True
         return False
@@ -121,19 +121,19 @@ class Tiedb(Mydb):
 
     def update_q_not_shown(self,qid):
         #将所有有显示的置为2
-        self._query_row('update zhidao set is_shown=1 where qid=%s',(qid, ))
+        self._execute('update zhidao set is_shown=1 where qid=%s',(qid, ))
 
     def update_q_shown(self,qid):
         #将所有有显示的置为2
-        self._query_row('update zhidao set is_shown=2 where qid=%s',(qid, ))
+        self._execute('update zhidao set is_shown=2 where qid=%s',(qid, ))
 
     def update_q_shown_avaliable(self,qid,answered_user):
         #将正确post上去的这位同志置为3
-        self._query_row('update zhidao set is_shown=3 where qid=%s and answered_user=%s',(qid,answered_user))
+        self._execute('update zhidao set is_shown=3 where qid=%s and answered_user=%s',(qid,answered_user))
 
     def evaluate(self,inserted):
         #抽取特定时间段以后的回复情况进行水态评估
-        self._query_row('select * from zhidao where inserted>%s',(inserted, ))
+        self._query_rows('select * from zhidao where inserted>%s',(inserted, ))
 
 
 class csdndb(Mydb):
