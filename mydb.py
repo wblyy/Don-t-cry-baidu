@@ -97,7 +97,7 @@ class Tiedb(Mydb):
     def save_q(self, qid, senten):
         self._execute("insert zhidao (qid, senten) values (%s, %s)", (qid, senten))
     def save_question(self,qid,senten,answered_user,related_IP):
-        self._excute("insert zhidao (qid, senten,answered_user,related_IP) values (%s,%s,%s,%s)",(qid, senten,answered_user,related_IP))
+        self._execute("insert zhidao (qid, senten,answered_user,related_IP) values (%s,%s,%s,%s)",(qid, senten,answered_user,related_IP))
 
     def is_q_in(self, qid):
         if self._query_row('select id from zhidao where qid=%s', (qid, )):
