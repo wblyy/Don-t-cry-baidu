@@ -83,12 +83,13 @@ def answer_once(qid, content):
 @rerun
 def answer_search():
     try:
+        tieba.login()
         switch_user=0
         p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
         temp_word='确实挺熟悉的'
         for row in yield_q():
             switch_user=switch_user+1
-            if switch_user%5==0:
+            if switch_user%10==0:
                 username, passwd = tiebadb.get_random_bd_user()
                 print_message('%s\t%s' % (username, passwd))
                 tieba = Tieba(username, passwd)
@@ -142,10 +143,10 @@ def main():
         
         q = tieba.get_questions()
         for row in q['data']['detail']:
-            username, passwd = tiebadb.get_random_bd_user()
-            print_message('%s\t%s' % (username, passwd))
-            tieba = Tieba(username, passwd)
-            tieba.login()
+            #username, passwd = tiebadb.get_random_bd_user()
+            #print_message('%s\t%s' % (username, passwd))
+            #tieba = Tieba(username, passwd)
+            #tieba.login()
             # print row['title'].encode('utf8'), row['tagName'][0].encode('utf8')
             # continue
             if u'小时' in row['createTime']:
