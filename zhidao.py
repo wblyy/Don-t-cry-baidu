@@ -82,14 +82,16 @@ def answer_once(qid, content):
 
 @rerun
 def answer_search():
+    tieba = Tieba('eternalcxx0302', 'yanhuai0202')
+    tieba.login()
     try:
-        tieba.login()
+        #tieba.login()
         switch_user=0
         p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
         temp_word='确实挺熟悉的'
         for row in yield_q():
             switch_user=switch_user+1
-            if switch_user%10==0:
+            if switch_user%100==0:
                 username, passwd = tiebadb.get_random_bd_user()
                 print_message('%s\t%s' % (username, passwd))
                 tieba = Tieba(username, passwd)
