@@ -90,12 +90,7 @@ def answer_search():
         p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
         temp_word='确实挺熟悉的'
         for row in yield_q():
-            switch_user=switch_user+1
-            if switch_user%100==0:
-                username, passwd = tiebadb.get_random_bd_user()
-                print_message('%s\t%s' % (username, passwd))
-                tieba = Tieba(username, passwd)
-                tieba.login()
+            
             #temp_word='确实挺熟悉的'
             content=''
             senten=''
@@ -105,6 +100,12 @@ def answer_search():
             qid = row[0][row[0].rfind('/')+1:row[0].rfind('.')]
             title = row[1]
             if not tiebadb.is_q_shown(qid) and not '用户名' in title:#改成q shown查询后再确定是否回
+                switch_user=switch_user+1
+                if switch_user%10==0:
+                    username, passwd = tiebadb.get_random_bd_user()
+                    print_message('%s\t%s' % (username, passwd))
+                    tieba = Tieba(username, passwd)
+                    tieba.login()
                 print row[2]
                 con_fil=p.split(content+row[2])
                 for con in con_fil:
