@@ -137,7 +137,7 @@ def answer_search():
                 time.sleep(choice([10, 15])*10)
                 temp_word=row[2]
             else:
-                print 'answered_before'
+                print 'answered_before',qid
     except TiebaError, e:
         print 'Answer Failed'
         raise
