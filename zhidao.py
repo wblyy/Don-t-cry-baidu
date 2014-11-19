@@ -101,7 +101,7 @@ def answer_search():
             #url_filter=[]
             qid = row[0][row[0].rfind('/')+1:row[0].rfind('.')]
             title = row[1]
-            if tiebadb.is_q_shown(qid)<=1:
+            if tiebadb.is_q_shown(qid)==1:
                 switch_user=switch_user+1
                 #print tiebadb.is_q_shown(qid)
                 if switch_user%10==0:
