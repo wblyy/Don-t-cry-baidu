@@ -107,10 +107,10 @@ class Tiedb(Mydb):
 
 
     def is_q_shown(self, qid):
-        if self._query_row('select is_shown from zhidao where qid=%s', (qid, ))>=2:
+        return self._query_row('select is_shown from zhidao where qid=%s', (qid, ))
         #规定0状态是未知，1状态是未显示，2状态是已显示，3状态是显示的是当前状态的信息
-            return True
-        return False
+        #    return True
+        #return False
 
     def is_q_shown_detected(self):
         #从数据库中获取is-shown状态未知的 qid以及时间
