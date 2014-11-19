@@ -17,7 +17,7 @@ from bs4 import BeautifulSoup
 import requests
 
 # post_verifycode_url = "http://sonidigg.xicp.net:9000/"
-post_verifycode_url = "http://localhost:9000/"
+post_verifycode_url = "54.223.153.21:9000/"
 # verifycode_url = "http://221.123.160.241:9000/baikecode?type="
 
 def rerun(method):
