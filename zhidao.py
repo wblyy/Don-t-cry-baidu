@@ -105,6 +105,7 @@ def answer_search():
                 switch_user=switch_user+1
                 #print tiebadb.is_q_shown(qid)
                 if switch_user%10==0:
+                    print 'switch to another user....'
                     username, passwd = tiebadb.get_random_bd_user()
                     print_message('%s\t%s' % (username, passwd))
                     tieba = Tieba(username, passwd)
