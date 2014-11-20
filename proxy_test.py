@@ -23,4 +23,4 @@ proxy_dict={'http': 'http://113.11.198.163:2223/',
 			'http': 'http://113.11.198.169:2223/'
 			}
 
-print proxy_dict[random.randint(0,len(proxy_dict))]
+print proxy_dict[random.choice(proxy_dict.keys())]
