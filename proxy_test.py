@@ -14,7 +14,7 @@ proxy_dict=['http://113.11.198.163:2223/',
 			]
 
 
-#proxy_handler = urllib2.ProxyHandler({'http': 'http://113.11.198.167:2223/'})
+proxy_handler = urllib2.ProxyHandler({'http': 'http://113.11.198.167:2223/'})
 #113.11.198.[163-169] 2223
 proxy_handler_random = urllib2.ProxyHandler({"http":random.choice(proxy_dict)})
 
