@@ -1,8 +1,9 @@
+#coding=utf-8
 import requests
 import json
 import urllib2
 import urllib
-
+#AttributeError: 'module' object has no attribute 'loads'
 
 response = urllib2.urlopen('http://54.223.153.21:8012/proxy').read()#requests.get('http://54.223.153.21:8012/proxy')
 #response.decoding = 'gb2312'
