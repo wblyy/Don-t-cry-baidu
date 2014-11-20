@@ -9,6 +9,6 @@ proxy_auth_handler.add_password('realm', 'host', 'username', 'password')
  
 opener = urllib2.build_opener(proxy_handler, proxy_auth_handler)
 # This time, rather than install the OpenerDirector, we use it directly:
-f = opener.open('http://www.example.com/login.html')
+f = opener.open('http://www.douban.com')
 content = f.read()
 print content
