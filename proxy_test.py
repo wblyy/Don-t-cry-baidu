@@ -1,6 +1,6 @@
 #coding=utf-8
 import urllib2
- 
+import random
 proxy_handler = urllib2.ProxyHandler({'http': 'http://113.11.198.163:2223/'})
 #113.11.198.[163-169] 2223
 
@@ -12,3 +12,15 @@ opener = urllib2.build_opener(proxy_handler, proxy_auth_handler)
 f = opener.open('http://www.douban.com')
 content = f.read()
 print content
+
+
+proxy_dict={'http': 'http://113.11.198.163:2223/',
+			'http': 'http://113.11.198.164:2223/',
+			'http': 'http://113.11.198.165:2223/',
+			'http': 'http://113.11.198.166:2223/',
+			'http': 'http://113.11.198.167:2223/',
+			'http': 'http://113.11.198.168:2223/',
+			'http': 'http://113.11.198.169:2223/'
+			}
+
+print proxy_dict[random.randint(0,len(proxy_dict))]
