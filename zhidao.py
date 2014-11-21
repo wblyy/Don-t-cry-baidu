@@ -90,20 +90,7 @@ def answer_search():
         switch_user=0
         p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
         temp_word='确实挺熟悉的'
-        q = tieba.get_questions()
-        for row in q['data']['detail']:
-            #username, passwd = tiebadb.get_random_bd_user()
-            #print_message('%s\t%s' % (username, passwd))
-            #tieba = Tieba(username, passwd)
-            #tieba.login()
-            # print row['title'].encode('utf8'), row['tagName'][0].encode('utf8')
-            # continue
-            if u'小时' in row['createTime']:
-                return
-            qid = row['qid'].encode('utf8')
-            title = row['title'].encode('utf8')
-
-        #for row in yield_q():
+        for row in yield_q():
             #print 'switch_user'
             #temp_word='确实挺熟悉的'
             content=''
@@ -111,8 +98,8 @@ def answer_search():
             senten_left=''
             senten_right=''
             #url_filter=[]
-            #qid = row[0][row[0].rfind('/')+1:row[0].rfind('.')]
-            #title = row[1]
+            qid = row[0][row[0].rfind('/')+1:row[0].rfind('.')]
+            title = row[1]
             if tiebadb.is_q_shown(qid)[0]<=1:
                 switch_user=switch_user+1
                 #print tiebadb.is_q_shown(qid)
