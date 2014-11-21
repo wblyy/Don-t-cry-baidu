@@ -126,11 +126,11 @@ def answer_search():
                     tieba = Tieba(username, passwd)
                     tieba.login()
                 #print row[2]
-                con_fil=p.split(content)
+                con_fil=p.split(title)
                 for con in con_fil:
                     content=content+con
                 print content    
-                similar_answer = reg.get_bing_similar(title,content)
+                similar_answer = reg.get_bing_similar(content,'')
                 if similar_answer:
                     for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",similar_answer.decode('utf8')):
                         choose=random.randint(2,5)
