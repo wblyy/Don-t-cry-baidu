@@ -28,7 +28,7 @@ print content
 
 proxy_handler = urllib2.ProxyHandler({"http":random.choice(proxy_dict)})
 
-opener = urllib2.build_opener(proxy_handler, proxy_auth_handler)
+#opener = urllib2.build_opener(proxy_handler, proxy_auth_handler)
 # This time, rather than install the OpenerDirector, we use it directly:
 f = opener.open('http://www.douban.com')
 content = f.read()
