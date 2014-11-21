@@ -83,6 +83,7 @@ def answer_once(qid,content,current_user):
 def answer_search():
     #tieba = Tieba('eternalcxx0302', 'yanhuai0202')
     username, passwd = tiebadb.get_random_bd_user()
+    print username, passwd
     tieba = Tieba(username, passwd)
     tieba.login()
     try:
