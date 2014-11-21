@@ -125,8 +125,8 @@ def answer_search():
                     print_message('%s\t%s' % (username, passwd))
                     tieba = Tieba(username, passwd)
                     tieba.login()
-                print row[2]
-                con_fil=p.split(content+row[2])
+                #print row[2]
+                con_fil=p.split(content)
                 for con in con_fil:
                     content=content+con
                 print content    
@@ -150,7 +150,7 @@ def answer_search():
                     print  "从bing总抓取答案失败，采用备选答案：        " +senten            
                 answer_once(qid, senten,username)
                 time.sleep(choice([10, 15])*10)
-                temp_word=row[2]
+                temp_word=title
             else:
                 print tiebadb.is_q_shown(qid),'answered_before',qid
     except TiebaError, e:
