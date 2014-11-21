@@ -46,7 +46,7 @@ class Tieba(object):
     def __init__(self, username, passwd):
         self.username = username
         self.passwd = passwd
-        self.session.proxies = {'http': 'http://113.11.198.163:2223/'}
+        #self.session.proxies = {'http': 'http://113.11.198.163:2223/'}
         self.session = requests.session()
         self.verifycode_id = None
         try:
