@@ -102,6 +102,8 @@ def answer_search():
                 return
             qid = row['qid'].encode('utf8')
             title = row['title'].encode('utf8')
+            print qid
+            print title
 
         #for row in yield_q():
             #print 'switch_user'
