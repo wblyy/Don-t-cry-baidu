@@ -63,7 +63,7 @@ def get_cur_ts():
     return str(time.time()).replace('.', '0')
 
 tiebadb = Tiedb()
-tieba = Tieba('eternalcxx0302', 'yanhuai0202')
+#tieba = Tieba('eternalcxx0302', 'yanhuai0202')
 reg=Reg_test()
 getmyip = Getmyip()
 current_IP=getmyip.getip()
