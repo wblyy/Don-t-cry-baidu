@@ -62,22 +62,14 @@ def get_random_senten(insert=''):
 def get_cur_ts():
     return str(time.time()).replace('.', '0')
 
-tiebadb = Tiedb()
+#tiebadb = Tiedb()
 #tieba = Tieba('eternalcxx0302', 'yanhuai0202')
 reg=Reg_test()
 getmyip = Getmyip()
 current_IP=getmyip.getip()
 print 'current_IP:',current_IP
-def answer_once(qid,content,current_user):
-    try:
-        # username, passwd = tiebadb.get_random_bd_user()
-        # tieba = Tieba(username, passwd)
-        # tieba.login()
-        tieba.answer_q(qid, content)
-        print '入库前：',qid, content,'et',current_IP
-        tiebadb.save_question(qid, content,current_user,current_IP)
-    except TiebaError, e:
-        print 'Answer Failed'    
+#def answer_once(qid,content,current_user):
+        
 
 @rerun
 def answer_search():
@@ -148,7 +140,13 @@ def answer_search():
                     senten=senten_left+senten1[random.randint(0,len(senten1))]+','+senten2[random.randint(0,len(senten2))]
                     #senten=senten[0:factor]+','+senten1[random.randint(0,4)]+','+senten2[random.randint(0,4)]+','+senten[factor]
                     print  "从bing总抓取答案失败，采用备选答案：        " +senten            
-                answer_once(qid, senten,username)
+                #answer_once(qid, senten,username)
+                try:            
+                    tieba.answer_q(qid, senten)
+                    print '入库前：',qid, senten,'et',current_IP
+                    tiebadb.save_question(qid, senten,username,current_IP)
+                except TiebaError, e:
+                    print 'Answer Failed'
                 time.sleep(choice([10, 15])*10)
                 temp_word=title
             else:
