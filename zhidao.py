@@ -62,7 +62,7 @@ def get_random_senten(insert=''):
 def get_cur_ts():
     return str(time.time()).replace('.', '0')
 
-#tiebadb = Tiedb()
+tiebadb = Tiedb()
 #tieba = Tieba('eternalcxx0302', 'yanhuai0202')
 reg=Reg_test()
 getmyip = Getmyip()
