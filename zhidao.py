@@ -4,7 +4,8 @@ import time
 import traceback
 import requests
 from tieba import Tieba, TiebaError, get_random_sentense, print_message, rerun
-from mydb import Tiedb
+from mydb import Tiedb, zhidao_whole
+from IPdb import IPdb
 import json
 import re
 import random
@@ -62,39 +63,46 @@ def get_random_senten(insert=''):
 def get_cur_ts():
     return str(time.time()).replace('.', '0')
 
+myIPdb=IPdb()
+proxy_dict=['http://113.11.198.163:2223/','http://113.11.198.167:2223/','http://113.11.198.168:2223/','http://113.11.198.169:2223/',]        
+current_IP=''
 tiebadb = Tiedb()
 #tieba = Tieba('eternalcxx0302', 'yanhuai0202')
 reg=Reg_test()
-getmyip = Getmyip()
-current_IP=getmyip.getip()
-print 'current_IP:',current_IP
+#getmyip = Getmyip()
+#current_IP=getmyip.getip()
+#print 'current_IP:',current_IP
 #def answer_once(qid,content,current_user):
         
+zhidaodb = zhidao_whole()
 
 @rerun
 def answer_search():
     #tieba = Tieba('eternalcxx0302', 'yanhuai0202')
     username, passwd = tiebadb.get_random_bd_user()
     print username, passwd
-    tieba = Tieba(username, passwd)
+    current_IP=random.choice(proxy_dict)
+    tieba = Tieba(username, passwd,{'http':current_IP})
     tieba.login()
     try:
         #tieba.login()
         switch_user=0
         p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
         temp_word='确实挺熟悉的'
-        q = tieba.get_questions()
-        for row in q['data']['detail']:
+        # q = tieba.get_questions()
+        # for row in q['data']['detail']:
+        for row in zhidaodb.get_questions():
             #username, passwd = tiebadb.get_random_bd_user()
             #print_message('%s\t%s' % (username, passwd))
             #tieba = Tieba(username, passwd)
             #tieba.login()
             # print row['title'].encode('utf8'), row['tagName'][0].encode('utf8')
             # continue
-            if u'小时' in row['createTime']:
-                return
-            qid = row['qid'].encode('utf8')
-            title = row['title'].encode('utf8')
+            # if u'小时' in row['createTime']:
+                # return
+            # qid = row['qid'].encode('utf8')
+            #            qid = row[0]
+            title = row[1].encode('utf8')
             print qid
             print title
 
@@ -115,7 +123,8 @@ def answer_search():
                     print 'switch to another user....'
                     username, passwd = tiebadb.get_random_bd_user()
                     print_message('%s\t%s' % (username, passwd))
-                    tieba = Tieba(username, passwd)
+                    current_IP=random.choice(proxy_dict)
+                    tieba = Tieba(username, passwd,{'http':current_IP})
                     tieba.login()
                 #print row[2]
                 con_fil=p.split(title)
@@ -224,4 +233,13 @@ if __name__ == "__main__":
     # test()
     # yield_q()
     while True:
-        answer_search()
+
+        for IP in myIPdb.get_fast_IP():
+            fast_IP=str(IP[0])+':'+str(IP[1])
+            proxy_dict.append(fast_IP)
+            print fast_IP
+
+            print myIPdb.get_fast_IP()
+
+
+            answer_search()

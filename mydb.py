@@ -41,6 +41,13 @@ class Mydb(object):
         rows = cur.fetchall()
         return rows    
 
+class zhidao_whole(Mydb):
+    def __init__(self):
+        Mydb.__init__(self, 'root', '654321', 'zhidao_whole')
+
+    def get_questions(self):
+        return self._query_rows('select qid,title from zhidao_music_tag where title like "%什么名字%" or title like "%插曲%" or title like "%歌词是%"')
+
 class Tiedb(Mydb):
     def __init__(self):
         Mydb.__init__(self, 'root', '654321', 'tiedb')

@@ -56,11 +56,11 @@ if __name__ == "__main__":
     # for row in mydb.get_random_rows(100, "%gmail.com"):
         # print row
     # sys.exit(0)
-<<<<<<< HEAD
+#<<<<<<< HEAD
     for IP in mydb.get_fast_IP():
         print str(IP[0])+':'+str(IP[1])
 
-=======
+#=======
     print mydb.get_fast_IP()
->>>>>>> origin/master
+#>>>>>>> origin/master
     

@@ -11,7 +11,6 @@ import random
 import functools
 import hashlib
 import urlparse
-import urlparse
 
 from bs4 import BeautifulSoup
 import requests
@@ -43,11 +42,12 @@ class Tieba(object):
         "User-Agent": 'Mozilla/5.0 (Android; Mobile; rv:22.0) Gecko/22.0 Firefox/22.0',
     }
 
-    def __init__(self, username, passwd):
+    def __init__(self, username, passwd, proxies=None): # {'http': 'http://123.21.32.32:80'}
         self.username = username
         self.passwd = passwd
         #self.session.proxies = {'http': 'http://113.11.198.163:2223/'}
         self.session = requests.session()
+        self.session.proxies = proxies or {}
         self.verifycode_id = None
         try:
             self._load_cookie()
