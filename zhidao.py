@@ -69,7 +69,7 @@ current_IP=''
 tiebadb = Tiedb()
 reg=Reg_test()        
 zhidaodb = zhidao_whole()
-
+#temp_word='确实挺熟悉的'
 @rerun
 def answer_search():
     #tieba = Tieba('eternalcxx0302', 'yanhuai0202')
@@ -79,11 +79,17 @@ def answer_search():
     print 'current_IP:',current_IP
     tieba = Tieba(username, passwd,{'http':current_IP})
     tieba.login()
-    try:
-        switch_user=0
-        p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
-        temp_word='确实挺熟悉的'
-        for row in zhidaodb.get_questions():
+    switch_user=0
+    p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+    questions=list(zhidaodb.get_questions())
+    print len(questions)
+    random.shuffle(questions)
+    temp_word=questions[0][1]
+    print 'temp_word:',temp_word
+    random.shuffle(questions)
+    
+    for row in questions:
+        try:    
             qid = row[0]
             title = row[1].encode('utf8')
             print qid
@@ -96,7 +102,7 @@ def answer_search():
             if not tiebadb.is_q_in(qid) or tiebadb.is_q_in(qid) and tiebadb.is_q_shown(qid)[0]<=1:
                 switch_user=switch_user+1
 
-                if switch_user%10==0:
+                if switch_user%5==0:
                     print 'switch to another user....'
                     username, passwd = tiebadb.get_random_bd_user()
                     print_message('%s\t%s' % (username, passwd))
@@ -133,13 +139,13 @@ def answer_search():
                     tiebadb.save_question(qid, senten,username,current_IP)
                 except TiebaError, e:
                     print 'Answer Failed'
-                time.sleep(choice([1, 5])*10)
+                time.sleep(choice([1, 2])*10)
                 temp_word=title
             else:
                 print tiebadb.is_q_shown(qid),'answered_before',qid
-    except TiebaError, e:
-        print 'Answer Failed'
-        raise
+        except TiebaError, e:
+            print 'Answer Failed'
+            raise
 
 # @rerun
 def main():
@@ -209,6 +215,7 @@ if __name__ == "__main__":
     # get_tag()
     # test()
     # yield_q()
+    #temp_word='确实挺熟悉的'
     while True:
 
         for IP in myIPdb.get_fast_IP():

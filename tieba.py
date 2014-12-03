@@ -23,7 +23,7 @@ def rerun(method):
     """Decorate with this method to restrict to site admins."""
     @functools.wraps(method)
     def wrapper(*args, **kwargs):
-        for i in xrange(100000):
+        for i in xrange(3):
             try:
                 return method(*args, **kwargs)
             except Exception, e:
