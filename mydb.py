@@ -46,7 +46,7 @@ class zhidao_whole(Mydb):
         Mydb.__init__(self, 'root', '654321', 'zhidao_whole')
 
     def get_questions(self):
-        return self._query_rows('select qid,title from zhidao_music_tag where title like "%什么名字%" or title like "%插曲%" or title like "%歌词是%"')
+        return self._query_rows('select qid,title from zhidao_music_tag where title like "%什么名字%" or title like "%插曲%" or title like "%歌词是%" or title like "%哪首歌%" or title like "%这首歌%" or title like "%背景乐%" or title like "%片尾曲%" or title like "%片头曲%" or title like "%背景音乐%" or title like "%猜歌%" ')
 
 class Tiedb(Mydb):
     def __init__(self):

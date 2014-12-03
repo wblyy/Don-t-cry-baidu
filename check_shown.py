@@ -27,7 +27,7 @@ while True:
                                 tiebadb.update_q_not_shown(shown[0])
                                 print 'answer failed'
                 print 'waiting for the next check....'                
-                time.sleep(1800)
+                time.sleep(60)
 	except Exception, e:
 		time.sleep(5)
 		print e

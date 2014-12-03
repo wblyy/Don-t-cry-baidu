@@ -67,13 +67,7 @@ myIPdb=IPdb()
 proxy_dict=['http://113.11.198.163:2223/','http://113.11.198.167:2223/','http://113.11.198.168:2223/','http://113.11.198.169:2223/',]        
 current_IP=''
 tiebadb = Tiedb()
-#tieba = Tieba('eternalcxx0302', 'yanhuai0202')
-reg=Reg_test()
-#getmyip = Getmyip()
-#current_IP=getmyip.getip()
-#print 'current_IP:',current_IP
-#def answer_once(qid,content,current_user):
-        
+reg=Reg_test()        
 zhidaodb = zhidao_whole()
 
 @rerun
@@ -82,43 +76,26 @@ def answer_search():
     username, passwd = tiebadb.get_random_bd_user()
     print username, passwd
     current_IP=random.choice(proxy_dict)
+    print 'current_IP:',current_IP
     tieba = Tieba(username, passwd,{'http':current_IP})
     tieba.login()
     try:
-        #tieba.login()
         switch_user=0
         p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
         temp_word='确实挺熟悉的'
-        # q = tieba.get_questions()
-        # for row in q['data']['detail']:
         for row in zhidaodb.get_questions():
-            #username, passwd = tiebadb.get_random_bd_user()
-            #print_message('%s\t%s' % (username, passwd))
-            #tieba = Tieba(username, passwd)
-            #tieba.login()
-            # print row['title'].encode('utf8'), row['tagName'][0].encode('utf8')
-            # continue
-            # if u'小时' in row['createTime']:
-                # return
-            # qid = row['qid'].encode('utf8')
-            #            qid = row[0]
+            qid = row[0]
             title = row[1].encode('utf8')
             print qid
             print title
-
-        #for row in yield_q():
-            #print 'switch_user'
-            #temp_word='确实挺熟悉的'
             content=''
             senten=''
             senten_left=''
             senten_right=''
-            #url_filter=[]
-            #qid = row[0][row[0].rfind('/')+1:row[0].rfind('.')]
-            #title = row[1]
+
             if not tiebadb.is_q_in(qid) or tiebadb.is_q_in(qid) and tiebadb.is_q_shown(qid)[0]<=1:
                 switch_user=switch_user+1
-                #print tiebadb.is_q_shown(qid)
+
                 if switch_user%10==0:
                     print 'switch to another user....'
                     username, passwd = tiebadb.get_random_bd_user()
@@ -126,7 +103,7 @@ def answer_search():
                     current_IP=random.choice(proxy_dict)
                     tieba = Tieba(username, passwd,{'http':current_IP})
                     tieba.login()
-                #print row[2]
+
                 con_fil=p.split(title)
                 for con in con_fil:
                     content=content+con
@@ -144,19 +121,19 @@ def answer_search():
                         choose=random.randint(2,5)
                         if len(hanzi)%choose!=0 and len(senten_left)<20:
                             senten_left=senten_left+hanzi+','
-                        #print hanzi
-                        #print "left:"+senten_left
+
+
                     senten=senten_left+senten1[random.randint(0,len(senten1))]+','+senten2[random.randint(0,len(senten2))]
-                    #senten=senten[0:factor]+','+senten1[random.randint(0,4)]+','+senten2[random.randint(0,4)]+','+senten[factor]
+
                     print  "从bing总抓取答案失败，采用备选答案：        " +senten            
-                #answer_once(qid, senten,username)
+
                 try:            
                     tieba.answer_q(qid, senten)
                     print '入库前：',qid, senten,'et',current_IP
                     tiebadb.save_question(qid, senten,username,current_IP)
                 except TiebaError, e:
                     print 'Answer Failed'
-                time.sleep(choice([10, 15])*10)
+                time.sleep(choice([1, 5])*10)
                 temp_word=title
             else:
                 print tiebadb.is_q_shown(qid),'answered_before',qid
@@ -235,11 +212,11 @@ if __name__ == "__main__":
     while True:
 
         for IP in myIPdb.get_fast_IP():
-            fast_IP=str(IP[0])+':'+str(IP[1])
+            fast_IP=str('http://'+IP[0])+':'+str(IP[1])+'/'
             proxy_dict.append(fast_IP)
             print fast_IP
 
-            print myIPdb.get_fast_IP()
+            #print myIPdb.get_fast_IP()
 
 
-            answer_search()
+        answer_search()
