@@ -48,6 +48,7 @@ class Tieba(object):
         #self.session.proxies = {'http': 'http://113.11.198.163:2223/'}
         self.session = requests.session()
         self.session.proxies = proxies or {}
+        
         self.verifycode_id = None
         try:
             self._load_cookie()
@@ -117,7 +118,7 @@ class Tieba(object):
         return error_message[0] if error_message else ""
 
     def islogin(self):
-        r = self.session.get('http://tieba.baidu.com/mo/')
+        r = self.session.get('http://tieba.baidu.com/mo/',timeout=10)
         if "注销" in r.content:
             return True
         else:
