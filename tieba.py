@@ -23,7 +23,7 @@ def rerun(method):
     """Decorate with this method to restrict to site admins."""
     @functools.wraps(method)
     def wrapper(*args, **kwargs):
-        for i in xrange(3):
+        for i in xrange(300):
             try:
                 return method(*args, **kwargs)
             except Exception, e:
@@ -174,7 +174,7 @@ class Tieba(object):
     # @rerun
     def answer_q(self, qid, content='用“音乐雷达”能搜到'):
         q_url = 'http://zhidao.baidu.com/question/%s.html' % qid
-        page = self.open_url(q_url).decode('utf-8').encode('utf-8')
+        page = self.open_url(q_url).decode('utf-8','ignore').encode('utf-8')
         formdata = self._get_form(page)
         # print formdata
         for i in ['cifr', 'rn', 'sub0', 'sub1', 'sub_answer', 'word']:
@@ -184,7 +184,7 @@ class Tieba(object):
                 "anonymous": '0',
                 })
         r = self.session.post('http://zhidao.baidu.com/msubmit/answer?ta=1&cifr=null', data=formdata)
-        htmlstr = r.content.decode('utf-8').encode('utf-8')
+        htmlstr = r.content.decode('utf-8','ignore').encode('utf-8')
         # print htmlstr
         soup = BeautifulSoup(htmlstr)
         if soup.title.string.encode('utf8') == '输入验证码': # if verifycode exist do it, else skip
@@ -194,7 +194,7 @@ class Tieba(object):
             if verifycode:
                 formdata.update({"vcode": verifycode})
             r = self.session.post('http://zhidao.baidu.com/msubmit/answer?ta=1&cifr=null', data=formdata)
-            htmlstr = r.content.decode('utf-8').encode('utf-8')
+            htmlstr = r.content.decode('utf-8','ignore').encode('utf-8')
         if '您的回答已成功提交' in r.content:
             # print r.headers
             # print r.content

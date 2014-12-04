@@ -82,26 +82,20 @@ def answer_search():
     switch_user=0
     p = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
     questions=list(zhidaodb.get_questions())
-    print len(questions)
     random.shuffle(questions)
     temp_word=questions[0][1]
-    print 'temp_word:',temp_word
     random.shuffle(questions)
     
     for row in questions:
         try:    
             qid = row[0]
-            title = row[1].encode('utf8')
-            print qid
-            print title
-            content=''
+            title = row[1]#.decode('utf8')
+            print '获得qid：',qid
+            print '获得title：',title
             senten=''
             senten_left=''
-            senten_right=''
-
             if not tiebadb.is_q_in(qid) or tiebadb.is_q_in(qid) and tiebadb.is_q_shown(qid)[0]<=1:
                 switch_user=switch_user+1
-
                 if switch_user%5==0:
                     print 'switch to another user....'
                     username, passwd = tiebadb.get_random_bd_user()
@@ -110,41 +104,23 @@ def answer_search():
                     tieba = Tieba(username, passwd,{'http':current_IP})
                     tieba.login()
 
-                con_fil=p.split(title)
-                for con in con_fil:
-                    content=content+con
-                print content    
-                similar_answer = reg.get_bing_similar(content,'')
-                if similar_answer:
-                    for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",similar_answer.decode('utf8')):
-                        choose=random.randint(2,5)
-                        if len(hanzi)%choose!=0 and len(senten_left)<20:
-                            senten_left=senten_left+hanzi+','
-                    senten=senten_left+senten1[random.randint(0,len(senten1))]+','+senten2[random.randint(0,len(senten2))]        
-                    print "从bing中得到最佳答案：     "+senten  
-                else:                
-                    for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",temp_word.decode('utf8')):
-                        choose=random.randint(2,5)
-                        if len(hanzi)%choose!=0 and len(senten_left)<20:
-                            senten_left=senten_left+hanzi+','
-
-
-                    senten=senten_left+senten1[random.randint(0,len(senten1))]+','+senten2[random.randint(0,len(senten2))]
-
-                    print  "从bing总抓取答案失败，采用备选答案：        " +senten            
-
+                for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",temp_word):#.decode('utf8','ignore')):
+                    choose=random.randint(2,5)
+                    if len(hanzi)%choose!=0 and len(senten_left)<20:
+                        senten_left=senten_left+hanzi+','
+                        senten=senten_left+senten1[random.randint(0,len(senten1)-1)]+','+senten2[random.randint(0,len(senten2)-1)]
                 try:            
                     tieba.answer_q(qid, senten)
-                    print '入库前：',qid, senten,'et',current_IP
+                    print '回答成功，入库前：',qid, senten,'et',current_IP
                     tiebadb.save_question(qid, senten,username,current_IP)
                 except TiebaError, e:
-                    print 'Answer Failed'
-                time.sleep(choice([1, 2])*10)
+                    print '回答内错误',e
+                #time.sleep(choice([1, 2])*10)
                 temp_word=title
             else:
                 print tiebadb.is_q_shown(qid),'answered_before',qid
         except TiebaError, e:
-            print 'Answer Failed'
+            print '回答外错误',e
             raise
 
 # @rerun

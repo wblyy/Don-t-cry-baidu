@@ -46,7 +46,7 @@ class IPdb(Mydb):
     def get_IP(self):
         return self._query_rows("select * from proxy order by id desc")
     def get_fast_IP(self):
-        return self._query_rows("select ip,port from proxy where delay_time<200")
+        return self._query_rows("select ip,port from proxy where delay_time<100")
     def get_tie(self, tieid):
         return self._query_rows("select t.baname, t.tieid, s.senten, t.marks from sentens s left join ties t on s.tieid=t.tieid where t.tieid=%s", (tieid,))
 
