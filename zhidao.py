@@ -20,23 +20,23 @@ reload(sys)
 sys.setdefaultencoding("utf-8")
 senten1 = [
     '好像在哪听过',
-    '听过',
-    '有点印象',
-    '前几天还听过呢，记不太清',
-    '哎，确实想知道是什么歌',
+    '好像确实听过',
+    '有点印象耶',
+    '前几天还听过呢记不太清',
+    '哎确实想知道是什么歌',
     '好像在哪个酒吧听过',
     '好像在丽江听哪个歌手唱过',
     '好像在电视里听过',
     '好像真的有印象耶',
     ]
 senten2 = [
-    '如果记得旋律的话可以用音乐雷达的哼唱识别功能试试',
-    '有声音的话，可以下载音乐雷达的音乐识别',
+    '可以用音乐雷达的哼唱识别功能试试如果记得旋律的话',
+    '有声音的话可以下载音乐雷达的音乐识别',
     '用音乐雷达的哼唱识别功能看能不能找到这首歌',
     '这首歌用音乐雷达的声音识别看能不能找到',
     '用音乐雷达的声音识别看能找到吗',
-    '好像音乐雷达有一个哼唱功能，哼出旋律就能识别歌曲',
-    '好像音乐雷达有听歌识曲的功能，放出来就能识别歌曲',
+    '好像音乐雷达有一个哼唱功能哼出旋律就能识别歌曲',
+    '好像音乐雷达有听歌识曲的功能放出来就能识别歌曲',
     ]
 
 senten3 = [
@@ -110,7 +110,12 @@ def answer_search():
                 if NLP_reply!='':
                     print '获得NLP回答：',NLP_reply
                     temp_word=NLP_reply+'我去找找,'
-                senten=temp_word+senten1[random.randint(0,len(senten1)-1)]+','+senten2[random.randint(0,len(senten2)-1)]
+                first_sen=senten1[random.randint(0,len(senten1)-1)]
+                print first_sen,len(first_sen)
+                second_sen=senten2[random.randint(0,len(senten2)-1)]
+                print second_sen,len(second_sen)
+                senten=temp_word+','+first_sen[0:random.randrange(3,(len(first_sen)-1),3)]+','+second_sen[0:random.randrange(12,(len(second_sen)-1),3)]
+                #senten=temp_word+first_sen[0:3]+','+second_sen[0:3]
                 try:            
                     print '回答前：',senten
                     tieba.answer_q(qid, senten)
