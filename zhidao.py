@@ -107,15 +107,12 @@ def answer_search():
                     tieba.login()
 
                 NLP_reply=myNLP.reply(title)
-                if NLP_reply:
+                if NLP_reply!='':
                     print '获得NLP回答：',NLP_reply
-                    temp_word=NLP_reply+',嗯嗯~'+temp_word
-                for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",temp_word):#.decode('utf8','ignore')):
-                    choose=random.randint(2,5)
-                    if len(hanzi)%choose!=0 and len(senten_left)<20:
-                        senten_left=senten_left+hanzi+','
-                        senten=senten_left+senten1[random.randint(0,len(senten1)-1)]+','+senten2[random.randint(0,len(senten2)-1)]
+                    temp_word=NLP_reply+'我去找找,'
+                senten=temp_word+senten1[random.randint(0,len(senten1)-1)]+','+senten2[random.randint(0,len(senten2)-1)]
                 try:            
+                    print '回答前：',senten
                     tieba.answer_q(qid, senten)
                     print '回答成功，入库前：',qid, senten,'et',current_IP
                     tiebadb.save_question(qid, senten,username,current_IP)
