@@ -125,7 +125,7 @@ class Tieba(object):
             return False
 
     def _login(self):
-        htmlstr = self.session.get(self.login_url).content
+        htmlstr = self.session.get(self.login_url,timeout=10).content
         formdata = self._get_form(htmlstr)
         verifycode = self._get_verifycode(htmlstr)
         if verifycode:
@@ -157,7 +157,7 @@ class Tieba(object):
             return self._login()
 
     def open_url(self, url):
-        return self.session.get(url).content
+        return self.session.get(url,timeout=10).content
 
     def get_questions(self, pn='0'):        
         return self.session.get('http://zhidao.baidu.com/ihome/api/push?pn=%s&rn=25&type=tag&tags=歌名' % pn).json()
