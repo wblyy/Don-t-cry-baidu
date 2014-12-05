@@ -13,6 +13,7 @@ from random import choice
 from reg_test import Reg_test
 from IP_test import Getmyip
 import sys
+from question import NLP_process
 
 
 reload(sys)
@@ -69,6 +70,7 @@ current_IP=''
 tiebadb = Tiedb()
 reg=Reg_test()        
 zhidaodb = zhidao_whole()
+myNLP=NLP_process()
 #temp_word='确实挺熟悉的'
 @rerun
 def answer_search():
@@ -104,6 +106,9 @@ def answer_search():
                     tieba = Tieba(username, passwd,{'http':current_IP})
                     tieba.login()
 
+                NLP_reply=myNLP.reply(title)
+                if NLP_reply:
+                    temp_word=NLP_reply+',whatever~'+temp_word
                 for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",temp_word):#.decode('utf8','ignore')):
                     choose=random.randint(2,5)
                     if len(hanzi)%choose!=0 and len(senten_left)<20:
