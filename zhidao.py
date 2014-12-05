@@ -108,7 +108,8 @@ def answer_search():
 
                 NLP_reply=myNLP.reply(title)
                 if NLP_reply:
-                    temp_word=NLP_reply+',whatever~'+temp_word
+                    print '获得NLP回答：',NLP_reply
+                    temp_word=NLP_reply+',嗯嗯~'+temp_word
                 for hanzi in re.findall(ur"([\u4e00-\u9fa5]+)",temp_word):#.decode('utf8','ignore')):
                     choose=random.randint(2,5)
                     if len(hanzi)%choose!=0 and len(senten_left)<20:
