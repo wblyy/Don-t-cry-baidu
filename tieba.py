@@ -85,11 +85,11 @@ class Tieba(object):
         re_hm_url = re.compile(u'src="(http://hm.*?)"')
         hm_url = re_hm_url.findall(htmlstr)
         if hm_url:
-            self.session.get(hm_url[0]) # just want to get the cookies in http://hm.baidu.com/hm.gif
+            self.session.get(hm_url[0],timeout=30) # just want to get the cookies in http://hm.baidu.com/hm.gif
         re_verifycode_url = re.compile(u'src="(.*?captchaservice.*?)"')
         verifycode_url = re_verifycode_url.findall(htmlstr)
         if verifycode_url:
-            r = self.session.get(verifycode_url[0].replace('&amp;', '&'), stream=True)
+            r = self.session.get(verifycode_url[0].replace('&amp;', '&'), stream=True,timeout=30)
             if r.status_code == 200:
                 with open('./code.jpg', 'wb') as f:
                     for chunk in r.iter_content():
@@ -136,7 +136,7 @@ class Tieba(object):
             })
         if 'changevcode' in formdata:
             formdata.pop('changevcode')
-        r = self.session.post(self.post_url, data=formdata) 
+        r = self.session.post(self.post_url, data=formdata,timeout=20) 
         if "BDUSS" in self.session.cookies:
             self._save_cookie()
             print_message("%s 登陆成功\n" %  self.username)
@@ -184,7 +184,7 @@ class Tieba(object):
                 "content": content,
                 "anonymous": '0',
                 })
-        r = self.session.post('http://zhidao.baidu.com/msubmit/answer?ta=1&cifr=null', data=formdata)
+        r = self.session.post('http://zhidao.baidu.com/msubmit/answer?ta=1&cifr=null', data=formdata,timeout=30)
         htmlstr = r.content.decode('utf-8','ignore').encode('utf-8')
         # print htmlstr
         soup = BeautifulSoup(htmlstr)
@@ -194,7 +194,7 @@ class Tieba(object):
             verifycode = self._get_verifycode(htmlstr)
             if verifycode:
                 formdata.update({"vcode": verifycode})
-            r = self.session.post('http://zhidao.baidu.com/msubmit/answer?ta=1&cifr=null', data=formdata)
+            r = self.session.post('http://zhidao.baidu.com/msubmit/answer?ta=1&cifr=null', data=formdata,timeout=30)
             htmlstr = r.content.decode('utf-8','ignore').encode('utf-8')
         if '您的回答已成功提交' in r.content:
             # print r.headers
@@ -221,7 +221,7 @@ class Tieba(object):
         # print page
         submit_url = urlparse.urljoin(tie_url, re.findall(u'<div class="d h"><form action="(.*?/submit)" method="post"', page)[0])
         print "submit_url: "+submit_url
-        r = self.session.post(submit_url, data=formdata)
+        r = self.session.post(submit_url, data=formdata,timeout=30)
         htmlstr = r.content.decode('utf-8').encode('utf-8')
         if "回贴成功" in htmlstr: # some time you did not need verifycode
             print_message("回贴成功 回帖内容: %s\n帖子地址: %s\n" % (content, tie_url))
